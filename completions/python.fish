@@ -1,3 +1,11 @@
+function __fish_is_py2
+	python -V 2>&1 | string match -rq "^.*\s2"
+end
+
+function __fish_is_py3
+	python -V 2>&1 | string match -rq "^.*\s3"
+end
+
 complete -c python -s B --description 'Don\'t write .py[co] files on import'
 complete -c python -s c -x --description "Execute argument as command"
 complete -c python -s d --description "Debug on"
@@ -20,10 +28,10 @@ complete -c python -a '-' -d 'Read program from stdin'
 # Version-specific completions
 # We have to detect this at runtime because pyenv etc can change
 # what `python` refers to.
-complete -c python -n 'python -V 2>&1 | string match -rq "^.*\s2"' -s 3 -d 'Warn about Python 3.x incompatibilities that 2to3 cannot trivially fix'
-complete -c python -n 'python -V 2>&1 | string match -rq "^.*\s2"' -s t --description "Warn on mixed tabs and spaces"
-complete -c python -n 'python -V 2>&1 | string match -rq "^.*\s2"' -s Q -x -a "old new warn warnall" --description "Division control"
-complete -c python -n 'python -V 2>&1 | string match -rq "^.*\s3"' -s q --description 'Don\'t print version and copyright messages on interactive startup'
-complete -c python -n 'python -V 2>&1 | string match -rq "^.*\s3"' -s X -x -d 'Set implementation-specific option'
-complete -c python -n 'python -V 2>&1 | string match -rq "^.*\s3"' -s b  -d 'Issue warnings about str(bytes_instance), str(bytearray_instance) and comparing bytes/bytearray with str'
-complete -c python -n 'python -V 2>&1 | string match -rq "^.*\s3"' -o bb -d 'Issue errors'
+complete -c python -n '__fish_is_py2' -s 3 -d 'Warn about Python 3.x incompatibilities that 2to3 cannot trivially fix'
+complete -c python -n '__fish_is_py2' -s t --description "Warn on mixed tabs and spaces"
+complete -c python -n '__fish_is_py2' -s Q -x -a "old new warn warnall" --description "Division control"
+complete -c python -n '__fish_is_py3' -s q --description 'Don\'t print version and copyright messages on interactive startup'
+complete -c python -n '__fish_is_py3' -s X -x -d 'Set implementation-specific option'
+complete -c python -n '__fish_is_py3' -s b  -d 'Issue warnings about str(bytes_instance), str(bytearray_instance) and comparing bytes/bytearray with str'
+complete -c python -n '__fish_is_py3' -o bb -d 'Issue errors'
